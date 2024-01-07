@@ -2,7 +2,7 @@ runtime: python
 runtime_config:
   operating_system: "ubuntu18"
   runtime_version: "3.8"
-  entrypoint: "gunicorn -b :$PORT machine_gca:app"
+  entrypoint: "gunicorn -b :$PORT machine_gca:main"
 env: flex
 network:
   session_affinity: true
