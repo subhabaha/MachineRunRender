@@ -6,5 +6,4 @@ runtime_config:
 env: flex
 network:
   session_affinity: true
-dependencies:
-  - numpy==1.21.2
+
