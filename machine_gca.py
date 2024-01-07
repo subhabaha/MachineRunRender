@@ -1,21 +1,23 @@
+
 import streamlit as st
 import tensorflow as tf
-import yaml
-from tensorflow.keras.preprocessing import image
+from tensorflow.keras import layers
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import os
 import cv2
 import numpy as np
-from datetime import datetime, date
+from tensorflow.keras.preprocessing import image
+import matplotlib.pyplot as plt
+from datetime import datetime
+from streamlit_option_menu import option_menu
+import pytz
+from datetime import date
 from email.message import EmailMessage
 import ssl
 import smtplib
-from streamlit_option_menu import option_menu
-import pytz
 
-def read_config(file_path="config.yaml"):
-    with open(file_path, "r") as yaml_file:
-        return yaml.safe_load(yaml_file)
-
-def get_log(model, video):
+def get_log(model, video): 
     frame_count = 0
     running_frames = 0
     not_running_frames = 0
@@ -98,9 +100,8 @@ def get_log(model, video):
 
     # Release the webcam capture object and close the OpenCV window
     cap.release()
-    pass
 
-def get_machine_status(model, video):
+def get_machine_status(model, video): 
     frame_count = 0
     running_frames = 0
     not_running_frames = 0
@@ -217,34 +218,24 @@ def get_machine_status(model, video):
     # Release the webcam capture object and close the OpenCV window
     cap.release()
 
-    pass
-
-# Load configuration from YAML file
-config = read_config()
-
-# Extract configuration parameters
-streamlit_config = config.get("streamlit", {})
-model_config = config.get("model", {})
-email_config = config.get("email", {})
-sidebar_config = config.get("sidebar", {})
-
-# Set Streamlit layout
-st.set_page_config(**streamlit_config)
+# Set the layout
+st.set_page_config(page_title="Machine Status App", page_icon="🤖", layout="wide")
 
 # Main title
 st.title("Machine Status Monitoring App")
 
 # Load the saved model
-model = tf.keras.models.load_model(model_config.get("model_path", ""))
-video_path = model_config.get("video_path", "")
+model = tf.keras.models.load_model('machine_model_5jan10pm.h5')
+video_path = "rtsp://admin:Admin@123@125.19.34.95:554/cam/realmonitor?channel=1&subtype=0"
+#video_path = "sample video.mp4"
 
 with st.sidebar:
     selected = option_menu(
-        menu_title=sidebar_config.get("menu_title", "Main Menu"),
-        options=sidebar_config.get("options", []),
-        icons=sidebar_config.get("icons", []),
-        default_index=sidebar_config.get("default_index", 0)
-    )
+        menu_title = "Main Menu",
+        options = ["Machine Status", "Machine runtime log"],
+        icons = ["lightning-charge-fill", "list-columns"],
+        default_index = 0)
+
 
 if selected == "Machine Status":
     # Display the machine status
@@ -256,4 +247,3 @@ if selected == "Machine runtime log":
     # Display the machine status
     st.subheader("Machine runtime log")
     get_log(model, video_path)
-
