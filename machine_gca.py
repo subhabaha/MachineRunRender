@@ -218,32 +218,36 @@ def get_machine_status(model, video):
     # Release the webcam capture object and close the OpenCV window
     cap.release()
 
-# Set the layout
-st.set_page_config(page_title="Machine Status App", page_icon="🤖", layout="wide")
+def main():
+    # Set the layout
+    st.set_page_config(page_title="Machine Status App", page_icon="🤖", layout="wide")
+    
+    # Main title
+    st.title("Machine Status Monitoring App")
+    
+    # Load the saved model
+    model = tf.keras.models.load_model('machine_model_5jan10pm.h5')
+    video_path = "rtsp://admin:Admin@123@125.19.34.95:554/cam/realmonitor?channel=1&subtype=0"
+    #video_path = "sample video.mp4"
+    
+    with st.sidebar:
+        selected = option_menu(
+            menu_title = "Main Menu",
+            options = ["Machine Status", "Machine runtime log"],
+            icons = ["lightning-charge-fill", "list-columns"],
+            default_index = 0)
+    
+    
+    if selected == "Machine Status":
+        # Display the machine status
+        st.subheader("Machine Status")
+        # Call the function to get the machine status and log
+        get_machine_status(model, video_path)
+    
+    if selected == "Machine runtime log":
+        # Display the machine status
+        st.subheader("Machine runtime log")
+        get_log(model, video_path)
 
-# Main title
-st.title("Machine Status Monitoring App")
-
-# Load the saved model
-model = tf.keras.models.load_model('machine_model_5jan10pm.h5')
-video_path = "rtsp://admin:Admin@123@125.19.34.95:554/cam/realmonitor?channel=1&subtype=0"
-#video_path = "sample video.mp4"
-
-with st.sidebar:
-    selected = option_menu(
-        menu_title = "Main Menu",
-        options = ["Machine Status", "Machine runtime log"],
-        icons = ["lightning-charge-fill", "list-columns"],
-        default_index = 0)
-
-
-if selected == "Machine Status":
-    # Display the machine status
-    st.subheader("Machine Status")
-    # Call the function to get the machine status and log
-    get_machine_status(model, video_path)
-
-if selected == "Machine runtime log":
-    # Display the machine status
-    st.subheader("Machine runtime log")
-    get_log(model, video_path)
+if __name__ == "__main__":
+    main()
