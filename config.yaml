@@ -1,8 +1,10 @@
 runtime: python
 runtime_config:
-operating_system: “ubuntu18”
-runtime_version: “3.8”
-entrypoint: streamlit run --server.port=8080 --server.address=0.0.0.0 --server.enableCORS=false --server.enableWebsocketCompression=false --server.enableXsrfProtection=false --server.headless=true machine_gca.py
+  operating_system: "ubuntu18"
+  runtime_version: "3.8"
+  entrypoint: "streamlit run --server.port=8080 --server.address=0.0.0.0 --server.enableCORS=false --server.enableWebsocketCompression=false --server.enableXsrfProtection=false --server.headless=true machine_gca.py"
 env: flex
 network:
-session_affinity: true
+  session_affinity: true
+dependencies:
+  - numpy==1.21.2
