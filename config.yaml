@@ -9,12 +9,12 @@ streamlit:
 # Model and video configuration
 model:
   model_path: "machine_model_5jan10pm.h5"
-  video_path: "rtsp://REDACTED/cam/realmonitor?channel=1&subtype=0"
+  video_path: "${VIDEO_PATH}"  # set VIDEO_PATH env var, e.g. rtsp://user:pass@host:554/...
 
 # Email configuration
 email:
   sender_email: "chandrapaulcs2001@gmail.com"
-  sender_password: "REDACTED_GMAIL_APP_PASSWORD"
+  sender_password: "${GMAIL_APP_PASSWORD}"  # set GMAIL_APP_PASSWORD env var
   recipient_email: "chandrapauldas01@gmail.com"
   email_subject: "⚠️ Warning! Machine Status changed ⚠️"
 

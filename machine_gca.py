@@ -126,7 +126,7 @@ def get_machine_status(model, video):
     em = EmailMessage()
 
     sender_email = "chandrapaulcs2001@gmail.com"
-    sender_password = "REDACTED_GMAIL_APP_PASSWORD"
+    sender_password = os.environ.get("GMAIL_APP_PASSWORD", "")
     #recipient = "chandrapauldas01@gmail.com"
     recipient = "chandrapauldas01@gmail.com"
     subject = f"⚠️ Warning! Machine Status changed ⚠️"
@@ -231,7 +231,7 @@ st.title("Machine Status Monitoring App")
 
 # Load the saved model
 model = tf.keras.models.load_model('machine_model_5jan10pm.h5')
-video_path = "rtsp://REDACTED/cam/realmonitor?channel=1&subtype=0"
+video_path = os.environ.get("VIDEO_PATH", "sample video.mp4")  # e.g. rtsp://user:pass@host:554/...
 #video_path = "sample video.mp4"
 
 with st.sidebar:
